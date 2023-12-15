@@ -32,7 +32,7 @@ Python3.6.2
 ├── bu_testvalue
 ├── bu_train 存放5000张训练集图片，用于计算准确率
 ├── data 
-├── image_all 存放500张训练集，用于网页端数据
+├── image_all 存放500张训练集，用于网页端数据(bu_test,bu_train,image_all存放于test_train.zip中)
 （2）框架：
 ├── static
 │   └── css 存放css样式

@@ -1,0 +1,10 @@
+./img_all/3/mnist_train_281.png
+./img_all/7/mnist_train_196.png
+./img_all/2/mnist_train_444.png
+./img_all/7/mnist_train_141.png
+./img_all/8/mnist_train_146.png
+./img_all/9/mnist_train_313.png
+./img_all/1/mnist_train_394.png
+./img_all/0/mnist_train_1.png
+./img_all/8/mnist_train_469.png
+./img_all/6/mnist_train_536.png

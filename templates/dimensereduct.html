@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写体数字图片结果预测</title>
+
+    <!--Bootstrap Stylesheet [ REQUIRED ]-->
+
+    <link href="../static/plugins/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="../static/img/hp.JPG">
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+    <link href="../static/css/nifty.min.css" rel="stylesheet">
+
+
+    <!--Nifty Premium Icon [ DEMONSTRATION ]-->
+    <link href="../static/css/nifty-demo-icons.min.css" rel="stylesheet">
+
+
+    <!--Demo [ DEMONSTRATION ]-->
+    <link href="../static/css/nifty-demo.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+
+
+
+    <!--JAVASCRIPT-->
+    <!--=================================================-->
+
+    <!--Pace - Page Load Progress Par [OPTIONAL]-->
+    <link href="../static/css/pace.min.css" rel="stylesheet">
+
+    <!-- <script src="/static/js/pace.min.js"></script> -->
+
+
+    <!--jQuery [ REQUIRED ]-->
+    <script src="../static/plugins/jquery-2.2.4.min.js"></script>
+
+
+    <!--BootstrapJS [ RECOMMENDED ]-->
+    <script src="../static/plugins/bootstrap.min.js"></script>
+
+
+    <!--NiftyJS [ RECOMMENDED ]-->
+    <!-- <script src="/static/js/nifty.min.js"></script> -->
+    <script src="../static/js/icons.js"></script>
+    <script src="../static/js/echarts.min.js"></script>
+    <!-- <script src="../static/js/tags.js"></script> -->
+    <script src="../static/js/echarts.min.js"></script>
+
+    <!--=================================================-->
+    <!--Demo script [ DEMONSTRATION ]-->
+    <!-- <script src="/static/js/nifty-demo.min.js"></script> -->
+    <style type="text/css">
+        #tagsList {
+            position: relative;
+            width: 250px;
+            height: 250px;
+        }
+
+        #tagsList a {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            font-family: Microsoft YaHei;
+            color: gray;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 3px 6px;
+        }
+
+        #tagsList a:hover {
+            color: #249e92;
+            letter-spacing: 2px;
+        }
+
+        #search:focus {
+            border: 1px solid #249e92;
+        }
+
+        .upload-image-box {
+            width: 150px;
+            height: 50px;
+            margin: auto;
+        }
+
+        .origin {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+        }
+
+        .upload-image-border {
+            border: 2px dotted #ccc;
+            padding: 20px;
+        }
+
+        .upload-image-text {
+            font-size: 18px;
+        }
+
+        .upload-image-icon {
+            margin-top: 10px;
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="container" class="effect aside-float aside-bright mainnav-lg">
+
+        <!--NAVBAR-->
+        <!--===================================================-->
+        <!--        <header id="navbar">-->
+        <h2 style="display: flex;justify-content:center;align-items: center;">基于t-SNE手写体数字识别系统</h2>
+
+        <div class="boxed">
+
+            <!--CONTENT CONTAINER-->
+            <!--===================================================-->
+            <div id="content-container">
+
+
+                <!--Page content-->
+                <!--===================================================-->
+                <div id="page-content">
+
+                    <!-- <h4 class="text-main pad-btm bord-btm">未降维的聚类预测</h4> -->
+                    <div class="row" style="height: 40px;"></div>
+                    <!-- <div class="row">
+                        <div class="col-lg-8" style="height: 600px;" id="guanxi">
+                            <form method=post enctype=multipart/form-data>
+                                <input type=file name=file>
+                                <input type=submit value=Upload>
+                            </form>
+
+                        </div>
+                        <div class="col-lg-2"></div>
+
+                    </div> -->
+                    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+
+                    <form method="post" class="form-horizontal" action="{{ url_for('dimensereduct') }}"
+                        enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="origin">
+                                    {% if origin %}
+                                    <img src="data:image/png;base64,{{origin}}" width="100" height="100" alt="origin" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>1. 降维前分类预测</h3>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="args1" class="col-sm-4 control-label">近邻中心数</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="args1">
+                                            <option>1</option>
+                                            <option>6</option>
+                                            <option>12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="args1_image" class="col-sm-4 control-label">预测结果</label>
+                                    <div class="col-sm-8">
+                                        {% if image1 %}
+                                        <img src="data:image/png;base64,{{image1}}" width="100" height="100"
+                                            alt="image1" />
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="upload-image-box text-center">
+                                    <div class="upload-image-border">
+                                        <p class="upload-image-text">上传图片</p>
+                                        <p class="glyphicon glyphicon-plus upload-image-icon"
+                                            onclick="document.getElementById('image-input').click()"></p>
+                                        <input type="file" name="file" id="image-input" style="display: none;"
+                                            accept="image/*" onchange="previewImage(this)">
+                                        <img id="image-preview" width="100" height="100" src="" alt=""
+                                            style="display: none;">
+                                    </div>
+                                    <br />
+                                    <input type="submit" value="提交" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>2. 降维后分类预测</h3>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="args2" class="col-sm-4 control-label">近邻中心数</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="args2">
+                                            <option>1</option>
+                                            <option>6</option>
+                                            <option>12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="args2_image" class="col-sm-4 control-label">预测结果</label>
+                                    <div class="col-sm-8">
+                                        {% if image2 %}
+                                        <img src="data:image/png;base64,{{image2}}" width="100" height="100"
+                                            alt="image2" />
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-4"></div>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <h3>3. 降维后分类预测</h3>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-4"></div>-->
+<!--                        </div>-->
+<!--                        <br />-->
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-4"></div>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label for="result" class="control-label">该图片预测结果为</label>-->
+<!--                                    {% if final %}-->
+<!--                                    <span class="label label-default">{{final}}</span>-->
+<!--                                    {% endif %}-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-4">-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </form>
+
+                </div>
+                <!--===================================================-->
+                <!--End page content-->
+
+
+            </div>
+            <!--===================================================-->
+            <!--END CONTENT CONTAINER-->
+
+
+            <!--MAIN NAVIGATION-->
+            <!--===================================================-->
+            <nav id="mainnav-container">
+                <div id="mainnav">
+
+                    <!--Menu-->
+                    <!--================================-->
+                    <div id="mainnav-menu-wrap">
+                        <div class="nano">
+                            <div class="nano-content">
+
+                                <ul id="mainnav-menu" class="list-group">
+
+
+                                    <!--Menu list item-->
+
+
+
+
+
+                                    <!--Menu list item-->
+                                    <li>
+                                        <a href="{{ url_for('show') }}">
+                                            <i class="fa fa-question-circle" style="width:24px"></i>
+                                            <span class="menu-title">mnist二维可视化</span>
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-divider"></li>
+                                    <li>
+                                        <a href="{{ url_for('dimensereduct') }}">
+                                            <i class="fa fa-question-circle" style="width:24px"></i>
+                                            <span class="menu-title">结果预测</span>
+                                        </a>
+
+                                    </li>
+<!--                                    <li class="list-divider"></li>-->
+<!--                                    <li>-->
+<!--                                        <a href="{{ url_for('dimensereduct') }}">-->
+<!--                                            <i class="fa fa-question-circle" style="width:24px"></i>-->
+<!--                                            <span class="menu-title">降维后聚类预测</span>-->
+<!--                                        </a>-->
+
+<!--                                    </li>-->
+<!--                                    <li class="list-divider"></li>-->
+<!--                                    <li>-->
+<!--                                        <a href="{{ url_for('predict') }}">-->
+<!--                                            <i class="fa fa-question-circle" style="width:24px"></i>-->
+<!--                                            <span class="menu-title">降维后分类预测</span>-->
+<!--                                        </a>-->
+
+<!--                                    </li>-->
+
+                                </ul>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--================================-->
+                    <!--End menu-->
+
+                </div>
+            </nav>
+            <!--===================================================-->
+            <!--END MAIN NAVIGATION-->
+
+        </div>
+
+        <!-- FOOTER -->
+        <!--===================================================-->
+        <!--        <footer id="footer">-->
+
+
+        <!--        </footer>-->
+        <!--===================================================-->
+        <!-- END FOOTER -->
+
+        <!-- SCROLL PAGE BUTTON -->
+        <!--===================================================-->
+        <div>
+            <button class="scroll-top btn">
+                <i class="pci-chevron chevron-up"></i>
+            </button>
+        </div>
+        <!--===================================================-->
+        <!--===================================================-->
+        <!-- END OF CONTAINER -->
+
+    </div>
+    <script type="text/javascript">
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                    document.getElementById('image-preview').style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $(document).ready(function () {
+            $("#submit_btn").click(function () {
+                alert("yes")
+            })
+
+        })
+    </script>
+</body>
+
+</html>

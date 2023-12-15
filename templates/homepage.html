@@ -1,0 +1,61 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link rel="shortcut icon" href="../static/img/hp.JPG">-->
+    <title>开启探索</title>
+
+
+    <!--Bootstrap Stylesheet [ REQUIRED ]-->
+    <link href="../static/plugins/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+	#container{
+		background: url("../static/img/hp.JPG");
+		 background-position: 100% 100%;
+    background-size: 100% auto;
+	}
+	#a{
+background:rgba(255,255,255,0.3);
+		font-size: 18px;
+    width: 230px;
+    display: block;
+    margin: 0 auto;
+    /*text-decoration: none;*/
+    padding: 12px 50px;
+    border-radius: 5px;
+    border: 1px solid #f2f2f2;
+	background-color: #CCEEFF;
+    text-align: center;
+    color: black;
+	cursor: pointer;
+
+
+
+	}
+
+p{font-size: 40px;
+    font-weight: lighter;
+	margin-top:90px;
+    margin-bottom: 90px;}
+</style>
+
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+    <link href="../static/css/nifty.min.css" rel="stylesheet">
+    <!--Demo [ DEMONSTRATION ]-->
+    <link href="../static/css/nifty-demo.min.css" rel="stylesheet">
+
+</head>
+<body>
+	<div id="container" class="cls-container">
+
+		<div class="cls-content" style="margin-top:150px ">
+			<div class="mar-ver pad-btm" >
+
+				<p class="text-muted"style="color:black " >基于t-SNE手写体数字识别系统</p>
+					<a id="a" href="{{ url_for('show')}}" >开启探索 </a>
+			</div>
+
+		</div>
+	</div>
+
+		</body>
+</html>

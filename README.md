@@ -15,7 +15,7 @@ Python3.6.2
 │   └── label.txt 500张图片对应的真正数字
 │   └── mix.txt 降维前的501张数据集的784维值
 │   └── sole_final.txt 对all_sole.txt中预处理后的值
-├── bu_2Dresult 
+├── bu_2Ddata 
     │   └── predict.txt 存放计算低维预测准确率时的预测结果
 ├── bu_data
 │   └── x.txt（x为数字0-9）存放计算高维预测准确率时的784维度值
